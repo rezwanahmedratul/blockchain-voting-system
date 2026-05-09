@@ -8,14 +8,14 @@ var VotingContract = contract(votingArtifacts)
 
 
 window.App = {
-  eventStart: function() { 
-    window.ethereum.request({ method: 'eth_requestAccounts' });
+  eventStart: async function() { 
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     VotingContract.setProvider(window.ethereum)
-    VotingContract.defaults({from: window.ethereum.selectedAddress,gas:6654755})
+    VotingContract.defaults({from: accounts[0],gas:6654755})
 
     // Load account data
-    App.account = window.ethereum.selectedAddress;
-    $("#accountAddress").html("Your Account: " + window.ethereum.selectedAddress);
+    App.account = accounts[0];
+    $("#accountAddress").html("Your Account: " + accounts[0]);
     VotingContract.deployed().then(function(instance){
      instance.getCountCandidates().then(function(countCandidates){
 
@@ -98,7 +98,7 @@ window.addEventListener("load", function() {
     window.eth = new Web3(window.ethereum)
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for deployment. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
-    window.eth = new Web3(new Web3.providers.HttpProvider("http://10.0.0.99:7545"))
+    window.eth = new Web3(new Web3.providers.HttpProvider("http://voterpc.ratul.fun"))
   }
   window.App.eventStart()
 })

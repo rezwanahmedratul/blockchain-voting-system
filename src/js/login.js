@@ -24,10 +24,10 @@ loginForm.addEventListener('submit', (event) => {
     if (data.role === 'admin') {
       console.log(data.role)
       localStorage.setItem('jwtTokenAdmin', data.token);
-      window.location.replace(`http://10.0.0.99:8080/admin.html?Authorization=Bearer ${localStorage.getItem('jwtTokenAdmin')}`);
+      window.location.replace(`/admin.html?Authorization=Bearer ${localStorage.getItem('jwtTokenAdmin')}`);
     } else if (data.role === 'user'){
       localStorage.setItem('jwtTokenVoter', data.token);
-      window.location.replace(`http://10.0.0.99:8080/index.html?Authorization=Bearer ${localStorage.getItem('jwtTokenVoter')}`);
+      window.location.replace(`/index.html?Authorization=Bearer ${localStorage.getItem('jwtTokenVoter')}`);
     }
   })
   .catch(error => {

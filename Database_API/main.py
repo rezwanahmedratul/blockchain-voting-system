@@ -19,6 +19,8 @@ origins = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
     "http://10.0.0.99:8080",
+    "http://vote.ratul.fun",
+    "https://vote.ratul.fun",
 ]
 
 # Add CORS middleware
