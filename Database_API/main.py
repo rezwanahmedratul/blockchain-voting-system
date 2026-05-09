@@ -37,6 +37,7 @@ try:
         password=os.environ['MYSQL_PASSWORD'],
         host=os.environ['MYSQL_HOST'],
         database=os.environ['MYSQL_DB'],
+        autocommit=True
     )
     cursor = cnx.cursor()
 except mysql.connector.Error as err:

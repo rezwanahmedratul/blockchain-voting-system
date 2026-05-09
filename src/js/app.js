@@ -98,7 +98,7 @@ window.addEventListener("load", function() {
     window.eth = new Web3(window.ethereum)
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for deployment. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
-    window.eth = new Web3(new Web3.providers.HttpProvider("http://10.0.0.99:9545"))
+    window.eth = new Web3(new Web3.providers.HttpProvider("http://10.0.0.99:7545"))
   }
   window.App.eventStart()
 })

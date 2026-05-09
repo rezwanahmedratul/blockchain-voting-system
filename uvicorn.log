@@ -1,0 +1,13 @@
+nohup: ignoring input
+INFO:     Started server process [4543]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     10.0.0.222:56756 - "GET /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.222:42568 - "OPTIONS /login?voter_id=admin&password=strongpasswprd HTTP/1.1" 200 OK
+INFO:     10.0.0.222:42568 - "GET /login?voter_id=admin&password=strongpasswprd HTTP/1.1" 401 Unauthorized
+INFO:     10.0.0.222:42580 - "OPTIONS /login?voter_id=admin&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.222:42580 - "GET /login?voter_id=admin&password=strongpassword HTTP/1.1" 401 Unauthorized
+INFO:     10.0.0.222:51392 - "OPTIONS /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.222:51392 - "GET /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.222:38986 - "GET /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
