@@ -12,29 +12,19 @@
 </head>
 
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">VotingChain Admin</div>
-    <nav class="sidebar-nav">
-      <a href="#dashboard" class="nav-item active">Overview</a>
-      <a href="#candidates" class="nav-item">Candidates</a>
-      <a href="#voters" class="nav-item">Voters</a>
-      <a href="#timeline" class="nav-item">Timeline</a>
-      <a href="#settings" class="nav-item">Settings</a>
-    </nav>
-    <div class="sidebar-footer">
-      <a href="#" onclick="App.logout()" class="nav-item">Logout</a>
-    </div>
-  </aside>
+  <!-- Atmospheric Background Shapes -->
+  <div class="md3-blur-shape blur-shape-1"></div>
+  <div class="md3-blur-shape blur-shape-2"></div>
 
   <!-- Top Navigation -->
-  <header class="top-nav">
+  <header class="top-nav no-sidebar">
     <div class="nav-left">
-      <h2 id="pageTitle">Admin Overview</h2>
+      <h2 id="pageTitle">VotingChain Admin</h2>
     </div>
     <div class="nav-right">
       <button class="theme-toggle" onclick="App.toggleTheme()" id="themeBtn">🌙</button>
-      <div class="profile-circle" id="profileInitials" onclick="location.href='#settings'">A</div>
+      <div class="profile-circle" id="profileInitials">A</div>
+      <button class="btn btn-logout" onclick="App.logout()">Logout</button>
     </div>
   </header>
 
@@ -137,15 +127,15 @@
         </section>
 
         <!-- Danger Zone Section -->
-        <section class="card full-width hover-lift stagger-4" style="border: 1px solid #ff4d4d; background: #fffcfc;">
-          <div class="card-header" style="border-bottom-color: #ffd6d6;">
-            <h2 style="color: #d82c0d;">Danger Zone</h2>
+        <section class="card full-width hover-lift stagger-4 danger-zone-card">
+          <div class="card-header danger-zone-header">
+            <h2 class="danger-zone-title">Danger Zone</h2>
             <p>Irreversible actions</p>
           </div>
           <div class="form-row" style="align-items: center; justify-content: space-between;">
             <div class="form-group">
               <h3 style="font-size: 1rem; margin-bottom: 0.25rem;">Clear Voting History</h3>
-              <p style="font-size: 0.85rem; color: #d82c0d; margin-bottom: 0;">Resets all votes and starts a new cycle.</p>
+              <p class="danger-zone-desc">Resets all votes and starts a new cycle.</p>
             </div>
             <button class="btn btn-danger" onclick="App.resetElection()">Reset Election</button>
           </div>

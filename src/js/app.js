@@ -28,6 +28,10 @@ window.App = {
               $('#addCandidate').click(function() {
                   var nameCandidate = $('#name').val();
                   var partyCandidate = $('#party').val();
+                  if (!nameCandidate || !partyCandidate) {
+                    alert("Please enter both candidate name and party.");
+                    return;
+                  }
                  instance.addCandidate(nameCandidate,partyCandidate).then(function(result){ 
                    location.reload();
                  })
@@ -37,10 +41,18 @@ window.App = {
                   var startDate = Date.parse(document.getElementById("startDate").value)/1000;
 
                   var endDate =  Date.parse(document.getElementById("endDate").value)/1000;
+
+                  if (isNaN(startDate) || isNaN(endDate)) {
+                    alert("Please select both start and end dates.");
+                    return;
+                  }
            
                   instance.setDates(startDate,endDate).then(function(rslt){ 
                     console.log("Dates set successfully");
                     location.reload();
+                  }).catch(function(err){
+                    console.error("Error setting dates:", err);
+                    alert("Failed to set dates. Make sure dates haven't been set already and are valid.");
                   });
               });     
 
@@ -55,22 +67,32 @@ window.App = {
         window.candidateNames = [];
         window.candidateVotes = [];
         
+        var totalCandidates = countCandidates.toNumber ? countCandidates.toNumber() : Number(countCandidates);
         let candidatesProcessed = 0;
         let displayedIndex = 1; // Sequential index for UI
-        for (var i = 0; i < countCandidates; i++ ){
+
+        // Handle case where there are no candidates
+        if (totalCandidates === 0) {
+          App.renderChart();
+        }
+
+        for (var i = 0; i < totalCandidates; i++ ){
           instance.getCandidate(i+1).then(function(data){
             var id = data[0];
             var name = data[1];
             var party = data[2];
             var voteCount = data[3];
             var isActive = data[4];
+
+            // Convert BigNumber to plain number for Chart.js
+            var voteNum = voteCount.toNumber ? voteCount.toNumber() : Number(voteCount);
             
             if (isActive) {
               var viewCandidates = `<tr>
                 <td><input class="form-check-input" type="radio" name="candidate" value="${id}" id="candidate-${id}"></td>
                 <td><label for="candidate-${id}">${name}</label></td>
                 <td>${party}</td>
-                <td class="text-center"><strong>${voteCount}</strong></td>
+                <td class="text-center"><strong>${voteNum}</strong></td>
               </tr>`;
               $("#boxCandidate").append(viewCandidates);
               
@@ -78,17 +100,20 @@ window.App = {
                 <td>${displayedIndex++}</td>
                 <td>${name}</td>
                 <td>${party}</td>
-                <td>${voteCount}</td>
+                <td>${voteNum}</td>
                 <td><button class="btn btn-danger btn-sm" onclick="App.deleteCandidate(${id})">Delete</button></td>
               </tr>`;
               $("#adminCandidateList").append(adminCandidateRow);
 
               window.candidateNames.push(name);
-              window.candidateVotes.push(voteCount);
+              window.candidateVotes.push(voteNum);
             }
             
             candidatesProcessed++;
-            // We do NOT call renderChart here directly, it will be called by initNavigation when the tab is shown
+            // Render chart once ALL candidates have been processed
+            if (candidatesProcessed === totalCandidates) {
+              App.renderChart();
+            }
           });
         }
         
@@ -97,8 +122,8 @@ window.App = {
 
       // Synchronize dates check and vote status
       instance.getDates().then(function(result){
-        var startTs = result[0].toNumber();
-        var endTs = result[1].toNumber();
+        var startTs = result[0].toNumber ? result[0].toNumber() : Number(result[0]);
+        var endTs = result[1].toNumber ? result[1].toNumber() : Number(result[1]);
         var startDate = new Date(startTs * 1000);
         var endDate = new Date(endTs * 1000);
         var now = new Date();
@@ -119,7 +144,7 @@ window.App = {
                 $("#voteButton").attr("disabled", false);
                 $("#voteButton").addClass("btn-pulse");
               } else {
-                $("#msg").html("<span class='account-pill' style='background: #f4d2d2; color: #d82c0d; border: 1px solid #ffb3b3;'>Election not active</span>");
+                $("#msg").html("<span class='account-pill' style='background: var(--danger); color: var(--on-primary);'>Election not active</span>");
               }
             } else {
               $("#msg").html("<span class='account-pill'>You have already voted</span>");
@@ -162,19 +187,72 @@ window.App = {
     // Destroy previous chart instance if it exists
     if (window.myVoteChart) {
       window.myVoteChart.destroy();
+      window.myVoteChart = null;
+    }
+
+    var names = window.candidateNames || [];
+    var votes = window.candidateVotes || [];
+
+    // If no data, show an empty state
+    if (names.length === 0) {
+      window.myVoteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['No candidates yet'],
+          datasets: [{
+            label: 'Number of Votes',
+            data: [0],
+            backgroundColor: 'rgba(103, 80, 164, 0.15)',
+            borderColor: 'rgba(103, 80, 164, 0.3)',
+            borderWidth: 1,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+      return;
+    }
+
+    // Generate colors based on Material You palette
+    var bgColors = [];
+    var borderColors = [];
+    var palette = [
+      { bg: 'rgba(103, 80, 164, 0.25)', border: 'rgba(103, 80, 164, 1)' },
+      { bg: 'rgba(125, 82, 96, 0.25)', border: 'rgba(125, 82, 96, 1)' },
+      { bg: 'rgba(0, 128, 96, 0.25)', border: 'rgba(0, 128, 96, 1)' },
+      { bg: 'rgba(33, 150, 243, 0.25)', border: 'rgba(33, 150, 243, 1)' },
+      { bg: 'rgba(255, 152, 0, 0.25)', border: 'rgba(255, 152, 0, 1)' },
+      { bg: 'rgba(156, 39, 176, 0.25)', border: 'rgba(156, 39, 176, 1)' },
+    ];
+    for (var i = 0; i < names.length; i++) {
+      var c = palette[i % palette.length];
+      bgColors.push(c.bg);
+      borderColors.push(c.border);
     }
     
     window.myVoteChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: window.candidateNames,
+        labels: names,
         datasets: [{
           label: 'Number of Votes',
-          data: window.candidateVotes,
-          backgroundColor: 'rgba(0, 128, 96, 0.2)',
-          borderColor: 'rgba(0, 128, 96, 1)',
-          borderWidth: 1,
-          borderRadius: 4
+          data: votes,
+          backgroundColor: bgColors,
+          borderColor: borderColors,
+          borderWidth: 2,
+          borderRadius: 8
         }]
       },
       options: {
@@ -227,6 +305,9 @@ window.App = {
         </tr>`;
         $("#voterList").append(row);
       });
+    })
+    .catch(function(err) {
+      console.error("Error loading voters:", err);
     });
   },
 
@@ -258,7 +339,13 @@ window.App = {
       return;
     }
 
-    const token = authHeader.split('Bearer ')[1];
+    var token;
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else {
+      token = authHeader;
+    }
+
     const decoded = App.parseJwt(token);
     if (!decoded || !decoded.voter_id) {
       alert("Invalid session. Please log in again.");
@@ -302,7 +389,7 @@ window.App = {
       });
     }).catch(function(err){
       console.error("Reset election error:", err);
-      alert("Failed to reset election.");
+      alert("Failed to reset election: " + (err.message || "Unknown error"));
     });
   },
 
@@ -324,7 +411,12 @@ window.App = {
     const urlParams = new URLSearchParams(window.location.search);
     const authHeader = urlParams.get('Authorization');
     if (authHeader) {
-      const token = authHeader.split('Bearer ')[1];
+      var token;
+      if (authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      } else {
+        token = authHeader;
+      }
       if (token) {
         const decoded = App.parseJwt(token);
         if (decoded && decoded.voter_id) {
@@ -350,30 +442,75 @@ window.App = {
   },
 
   initNavigation: function() {
+    // Page title mapping for each section
+    var pageTitles = {
+      '#dashboard': window.location.pathname.includes('admin.html') ? 'Admin Overview' : 'Voter Dashboard',
+      '#voting': 'Cast Your Vote',
+      '#results': 'Live Results',
+      '#settings': 'Account Settings',
+      '#candidates': 'Candidate Management',
+      '#voters': 'Voter Management',
+      '#timeline': 'Election Timeline'
+    };
+
+    // Smooth scroll navigation - all sections remain visible
     $('.nav-item').on('click', function(e) {
-      if ($(this).attr('href') === '#') return; // Logout link
+      var href = $(this).attr('href');
+      
+      // Logout link - don't intercept
+      if (href === '#') return;
+      
       e.preventDefault();
       
       // Update active nav link
       $('.nav-item').removeClass('active');
       $(this).addClass('active');
       
-      // Get target section ID
-      const targetId = $(this).attr('href');
+      // Update page title
+      var title = pageTitles[href] || 'Dashboard';
+      $('#pageTitle').text(title);
       
-      // Hide all sections, show target
-      $('main section').addClass('hidden');
-      $(targetId).removeClass('hidden');
+      // If this is the "Dashboard" or "Overview" link, scroll to top
+      if (href === '#dashboard') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
       
-      // If showing results/dashboard, render chart
-      if (targetId === '#results' || targetId === '#dashboard') {
-        App.renderChart();
+      // Scroll to the target section smoothly
+      var target = $(href);
+      if (target.length) {
+        var headerOffset = 90; // account for fixed header
+        var elementPosition = target[0].getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     });
-    
-    // Hide all sections except the first one initially
-    $('main section').addClass('hidden');
-    $('main section:first').removeClass('hidden');
+
+    // Handle hash in URL (e.g., from profile circle click)
+    if (window.location.hash && window.location.hash !== '#') {
+      var hash = window.location.hash;
+      setTimeout(function() {
+        var target = $(hash);
+        if (target.length) {
+          var headerOffset = 90;
+          var elementPosition = target[0].getBoundingClientRect().top;
+          var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          // Update active nav
+          $('.nav-item').removeClass('active');
+          $('.nav-item[href="' + hash + '"]').addClass('active');
+          var title = pageTitles[hash] || 'Dashboard';
+          $('#pageTitle').text(title);
+        }
+      }, 500);
+    }
   },
 
   logout: function() {

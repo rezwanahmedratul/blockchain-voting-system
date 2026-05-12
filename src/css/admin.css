@@ -4,10 +4,6 @@
   gap: 2rem;
 }
 
-.full-width {
-  grid-column: 1 / -1;
-}
-
 .card-header {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
@@ -53,28 +49,47 @@
   font-size: 0.95rem;
 }
 
-.btn-danger {
-  background-color: #d82c0d;
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #bc2205;
-}
-
 .chart-container {
   height: 300px;
   width: 100%;
 }
 
-.form-row {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+/* Danger Zone - Light Theme */
+.danger-zone-card {
+  border: 1px solid rgba(179, 38, 30, 0.3);
+  background: rgba(179, 38, 30, 0.03);
 }
 
-.form-group {
-  flex: 1;
+.danger-zone-header {
+  border-bottom-color: rgba(179, 38, 30, 0.15) !important;
+}
+
+.danger-zone-title {
+  color: #B3261E;
+}
+
+.danger-zone-desc {
+  font-size: 0.85rem;
+  color: #B3261E;
+  margin-bottom: 0;
+}
+
+/* Danger Zone - Dark Theme */
+[data-theme='dark'] .danger-zone-card {
+  border: 1px solid rgba(242, 184, 181, 0.3);
+  background: rgba(242, 184, 181, 0.05);
+}
+
+[data-theme='dark'] .danger-zone-header {
+  border-bottom-color: rgba(242, 184, 181, 0.15) !important;
+}
+
+[data-theme='dark'] .danger-zone-title {
+  color: #F2B8B5;
+}
+
+[data-theme='dark'] .danger-zone-desc {
+  color: #F2B8B5;
 }
 
 @media (max-width: 900px) {

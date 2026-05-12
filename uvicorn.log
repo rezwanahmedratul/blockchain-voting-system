@@ -1,6 +1,23 @@
-INFO:     Started server process [1644]
+INFO:     Started server process [9356]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     10.0.0.40:35098 - "GET /voters HTTP/1.1" 200 OK
-INFO:     10.0.0.40:35098 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:43002 - "OPTIONS /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.40:43002 - "GET /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.40:43004 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:54116 - "OPTIONS /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.40:54116 - "GET /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.40:39132 - "GET /login?voter_id=admin_user_id&password=strongpassword HTTP/1.1" 200 OK
+INFO:     10.0.0.40:39132 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:37308 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:44696 - "GET /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.40:34328 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:57060 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:34994 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:39694 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:39096 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:52094 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:58432 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:43750 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:51702 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:48558 - "GET /voters HTTP/1.1" 200 OK

@@ -12,28 +12,19 @@
 </head>
 
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">VotingChain</div>
-    <nav class="sidebar-nav">
-      <a href="#dashboard" class="nav-item active">Dashboard</a>
-      <a href="#voting" class="nav-item">Cast Vote</a>
-      <a href="#results" class="nav-item">Results</a>
-      <a href="#settings" class="nav-item">Settings</a>
-    </nav>
-    <div class="sidebar-footer">
-      <a href="#" onclick="App.logout()" class="nav-item">Logout</a>
-    </div>
-  </aside>
+  <!-- Atmospheric Background Shapes -->
+  <div class="md3-blur-shape blur-shape-1"></div>
+  <div class="md3-blur-shape blur-shape-2"></div>
 
   <!-- Top Navigation -->
-  <header class="top-nav">
+  <header class="top-nav no-sidebar">
     <div class="nav-left">
-      <h2 id="pageTitle">Voter Dashboard</h2>
+      <h2 id="pageTitle">VotingChain</h2>
     </div>
     <div class="nav-right">
       <button class="theme-toggle" onclick="App.toggleTheme()" id="themeBtn">🌙</button>
-      <div class="profile-circle" id="profileInitials" onclick="location.href='#settings'">U</div>
+      <div class="profile-circle" id="profileInitials">U</div>
+      <button class="btn btn-logout" onclick="App.logout()">Logout</button>
     </div>
   </header>
 
