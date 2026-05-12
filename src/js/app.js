@@ -8,6 +8,33 @@ var VotingContract = contract(votingArtifacts)
 
 
 window.App = {
+  ensureToastContainer: function() {
+    if (!document.getElementById('toastContainer')) {
+      const container = document.createElement('div');
+      container.id = 'toastContainer';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+  },
+
+  showToast: function(message, type = 'info') {
+    App.ensureToastContainer();
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast-message ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      toast.classList.add('visible');
+    });
+
+    setTimeout(() => {
+      toast.classList.remove('visible');
+      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, 3800);
+  },
+
   eventStart: async function() { 
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     VotingContract.setProvider(window.ethereum)
@@ -29,12 +56,16 @@ window.App = {
                   var nameCandidate = $('#name').val();
                   var partyCandidate = $('#party').val();
                   if (!nameCandidate || !partyCandidate) {
-                    alert("Please enter both candidate name and party.");
+                    App.showToast("Please enter both candidate name and party.", "warning");
                     return;
                   }
                  instance.addCandidate(nameCandidate,partyCandidate).then(function(result){ 
-                   location.reload();
-                 })
+                   App.showToast("Candidate added successfully.", "success");
+                   setTimeout(() => location.reload(), 800);
+                 }).catch(function(err){
+                   console.error("Error adding candidate:", err);
+                   App.showToast("Failed to add candidate. Please try again.", "error");
+                 });
 
             });   
               $('#addDate').click(function(){             
@@ -43,16 +74,16 @@ window.App = {
                   var endDate =  Date.parse(document.getElementById("endDate").value)/1000;
 
                   if (isNaN(startDate) || isNaN(endDate)) {
-                    alert("Please select both start and end dates.");
+                    App.showToast("Please select both start and end dates.", "warning");
                     return;
                   }
            
                   instance.setDates(startDate,endDate).then(function(rslt){ 
-                    console.log("Dates set successfully");
-                    location.reload();
+                    App.showToast("Voting dates set successfully.", "success");
+                    setTimeout(() => location.reload(), 800);
                   }).catch(function(err){
                     console.error("Error setting dates:", err);
-                    alert("Failed to set dates. Make sure dates haven't been set already and are valid.");
+                    App.showToast("Failed to set dates. Make sure dates haven't been set already and are valid.", "error");
                   });
               });     
 
@@ -167,16 +198,22 @@ window.App = {
     var candidateID = $("input[name='candidate']:checked").val();
     if (!candidateID) {
       $("#msg").html("<p>Please vote for a candidate.</p>")
+      App.showToast("Please vote for a candidate.", "warning");
       return
     }
     VotingContract.deployed().then(function(instance){
       instance.vote(parseInt(candidateID)).then(function(result){
         $("#voteButton").attr("disabled", true);
         $("#msg").html("<p>Voted</p>");
-         window.location.reload(1);
+        App.showToast("Vote cast successfully!", "success");
+        setTimeout(() => window.location.reload(1), 800);
+      }).catch(function(err){ 
+        console.error("ERROR! " + err.message)
+        App.showToast("Voting failed. Please try again.", "error");
       })
     }).catch(function(err){ 
       console.error("ERROR! " + err.message)
+      App.showToast("Voting failed. Please try again.", "error");
     })
   },
 
@@ -279,16 +316,20 @@ window.App = {
     if(!confirm("Are you sure you want to delete this candidate?")) return;
     VotingContract.deployed().then(function(instance){
       instance.deleteCandidate(id).then(function(result){
-        alert("Candidate deleted successfully");
-        location.reload();
+        App.showToast("Candidate deleted successfully.", "success");
+        setTimeout(() => location.reload(), 800);
+      }).catch(function(err){
+        console.error("ERROR! " + err.message)
+        App.showToast("Failed to delete candidate.", "error");
       })
     }).catch(function(err){ 
       console.error("ERROR! " + err.message)
+      App.showToast("Failed to delete candidate.", "error");
     })
   },
 
   loadVoters: function() {
-    fetch('http://10.0.0.99:8000/voters')
+    fetch('https://call.ratul.fun/voters')
     .then(response => response.json())
     .then(voters => {
       $("#voterList").empty();
@@ -313,21 +354,27 @@ window.App = {
 
   deleteVoter: function(voter_id) {
     if(!confirm(`Are you sure you want to delete voter ${voter_id}?`)) return;
-    fetch(`http://10.0.0.99:8000/voters/${voter_id}`, {
+    fetch(`https://call.ratul.fun/voters/${voter_id}`, {
       method: 'DELETE'
     })
     .then(response => {
       if(response.ok) {
-        alert("Voter deleted successfully");
+        App.showToast("Voter deleted successfully.", "success");
         App.loadVoters();
+      } else {
+        App.showToast("Failed to delete voter.", "error");
       }
+    })
+    .catch(err => {
+      console.error("Delete voter error:", err);
+      App.showToast("Failed to delete voter.", "error");
     });
   },
 
   changePassword: function() {
     const newPassword = document.getElementById('newPassword').value;
     if (!newPassword) {
-      alert("Please enter a new password");
+      App.showToast("Please enter a new password", "warning");
       return;
     }
 
@@ -335,7 +382,7 @@ window.App = {
     const urlParams = new URLSearchParams(window.location.search);
     const authHeader = urlParams.get('Authorization');
     if (!authHeader) {
-      alert("Session error. Please log in again.");
+      App.showToast("Session error. Please log in again.", "error");
       return;
     }
 
@@ -348,13 +395,13 @@ window.App = {
 
     const decoded = App.parseJwt(token);
     if (!decoded || !decoded.voter_id) {
-      alert("Invalid session. Please log in again.");
+      App.showToast("Invalid session. Please log in again.", "error");
       return;
     }
 
     const voter_id = decoded.voter_id;
 
-    fetch('http://10.0.0.99:8000/change-password', {
+    fetch('https://call.ratul.fun/change-password', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -366,15 +413,15 @@ window.App = {
     })
     .then(response => {
       if (response.ok) {
-        alert("Password updated successfully!");
+        App.showToast("Password updated successfully!", "success");
         document.getElementById('newPassword').value = '';
       } else {
-        alert("Failed to update password.");
+        App.showToast("Failed to update password.", "error");
       }
     })
     .catch(err => {
       console.error("Password change error:", err);
-      alert("An error occurred.");
+      App.showToast("An error occurred.", "error");
     });
   },
 
@@ -384,12 +431,15 @@ window.App = {
 
     VotingContract.deployed().then(function(instance){
       instance.resetElection().then(function(result){
-        alert("Election cycle reset successfully. A new round has begun!");
-        location.reload();
+        App.showToast("Election cycle reset successfully. A new round has begun!", "success");
+        setTimeout(() => location.reload(), 800);
+      }).catch(function(err){
+        console.error("Reset election error:", err);
+        App.showToast("Failed to reset election: " + (err.message || "Unknown error"), "error");
       });
     }).catch(function(err){
       console.error("Reset election error:", err);
-      alert("Failed to reset election: " + (err.message || "Unknown error"));
+      App.showToast("Failed to reset election: " + (err.message || "Unknown error"), "error");
     });
   },
 
@@ -526,7 +576,7 @@ window.addEventListener("load", function() {
     window.eth = new Web3(window.ethereum)
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for deployment. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
-    window.eth = new Web3(new Web3.providers.HttpProvider("http://voterpc.ratul.fun"))
+    window.eth = new Web3(new Web3.providers.HttpProvider("https://voterpc.ratul.fun"))
   }
   window.App.eventStart()
 })

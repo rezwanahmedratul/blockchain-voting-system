@@ -70,12 +70,239 @@ eth_sendTransaction
   Contract created: 0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab
   Gas usage: 857723
   Block number: 1
-  Block time: Tue May 12 2026 17:11:35 GMT+0000 (Coordinated Universal Time)
+  Block time: Tue May 12 2026 21:53:07 GMT+0000 (Coordinated Universal Time)
 
 eth_getTransactionReceipt
 eth_getCode
 eth_getTransactionByHash
 eth_getBlockByNumber
 eth_getBalance
+net_version
 eth_blockNumber
+eth_getBlockByNumber
+eth_call
+eth_call
+eth_call
+net_version
+net_version
+eth_gasPrice
+eth_getCode
+eth_getCode
 eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0xc62b78f282fbfba7218ca5127aa752ed1ab0b063faa7c750c9fdfb71fcb93b9e
+  Gas usage: 49998
+  Block number: 2
+  Block time: Tue May 12 2026 21:53:57 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+eth_getBlockByNumber
+net_version
+eth_call
+eth_call
+eth_call
+net_version
+eth_gasPrice
+eth_getCode
+eth_getCode
+eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0x855bb50485cf0f59d0ee0912760e4cbc8bb2779e97e604d739d40eb222d8962f
+  Gas usage: 137097
+  Block number: 3
+  Block time: Tue May 12 2026 21:54:11 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+eth_getBlockByNumber
+net_version
+eth_call
+eth_call
+eth_call
+eth_call
+eth_gasPrice
+eth_getCode
+eth_getCode
+eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0xe7fc9b0e597f1f4c67114b37a478aed6177bfef19ea8129c0248c2b6e7c95999
+  Gas usage: 120033
+  Block number: 4
+  Block time: Tue May 12 2026 21:54:20 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+net_version
+net_version
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_sendRawTransaction
+
+  Transaction: 0x712ed2e937a0f8114c4cf4fac5ff86752952b0617bd3a53a722b734727f7d1d2
+  Gas usage: 24007
+  Block number: 5
+  Block time: Tue May 12 2026 21:54:43 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+net_version
+eth_gasPrice
+eth_getCode
+eth_getCode
+eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0x44cfcf6209a2551e989d18662ea0b3120040d6c9b986b47af87265343f22c133
+  Gas usage: 24007
+  Block number: 6
+  Block time: Tue May 12 2026 21:54:52 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+eth_getBlockByNumber
+net_version
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+net_version
+net_version
+eth_blockNumber
+eth_gasPrice
+eth_getCode
+eth_getCode
+eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0xe8816720bb048dcd243e43690d7fe8246dbdefc2420d0acad58773e49aa63217
+  Gas usage: 120009
+  Block number: 7
+  Block time: Tue May 12 2026 21:55:22 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+eth_getBlockByNumber
+net_version
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+net_version
+net_version
+eth_blockNumber
+eth_gasPrice
+eth_getCode
+eth_getCode
+eth_getBalance
+eth_blockNumber
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_getTransactionCount
+eth_sendRawTransaction
+
+  Transaction: 0x82768f82e9cac44b4092a82573fb09edecbde605f9cbd605681adbca4b1454db
+  Gas usage: 66076
+  Block number: 8
+  Block time: Tue May 12 2026 21:55:50 GMT+0000 (Coordinated Universal Time)
+
+eth_getTransactionReceipt
+eth_blockNumber
+eth_blockNumber
+eth_getBlockByNumber
+net_version
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call
+eth_call

@@ -1,4 +1,25 @@
-INFO:     Started server process [35312]
+INFO:     Started server process [53396]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     10.0.0.40:35606 - "OPTIONS /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.40:35606 - "GET /login?voter_id=ratul&password=ssssssss HTTP/1.1" 200 OK
+INFO:     10.0.0.40:48740 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:37836 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:32996 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:39018 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:56924 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:56924 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     10.0.0.40:50272 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36092 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "OPTIONS /voters/rahat HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "DELETE /voters/rahat HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "OPTIONS /voters/xxxx HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "DELETE /voters/xxxx HTTP/1.1" 200 OK
+INFO:     10.0.0.40:36098 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:47408 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:50786 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:44006 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:44006 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:43968 - "GET /voters HTTP/1.1" 200 OK

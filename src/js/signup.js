@@ -1,3 +1,30 @@
+function ensureToastContainer() {
+  if (!document.getElementById('toastContainer')) {
+    const container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+}
+
+function showToast(message, type = 'info') {
+  ensureToastContainer();
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast-message ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add('visible');
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 3800);
+}
+
 const signupForm = document.getElementById('signupForm');
 
 signupForm.addEventListener('submit', async (event) => {
@@ -8,12 +35,12 @@ signupForm.addEventListener('submit', async (event) => {
   const confirmPassword = document.getElementById('confirm-password').value;
 
   if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+    showToast('Passwords do not match!', 'warning');
     return;
   }
 
   try {
-    const response = await fetch(`http://10.0.0.99:8000/signup`, {
+    const response = await fetch(`https://call.ratul.fun/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -22,15 +49,17 @@ signupForm.addEventListener('submit', async (event) => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      alert("Registration successful! You can now log in.");
-      window.location.replace('/');
+      await response.json();
+      showToast('Registration successful! Redirecting to login...', 'success');
+      setTimeout(() => {
+        window.location.replace('/');
+      }, 800);
     } else {
       const errorData = await response.json();
-      alert("Registration failed: " + (errorData.detail || "Unknown error"));
+      showToast('Registration failed: ' + (errorData.detail || 'Unknown error'), 'error');
     }
   } catch (error) {
     console.error('Signup error:', error);
-    alert("An error occurred during registration. Please try again.");
+    showToast('An error occurred during registration. Please try again.', 'error');
   }
 });
