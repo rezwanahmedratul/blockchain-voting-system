@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login - Decentralized Voting</title>
+  <title>Sign Up - Decentralized Voting</title>
   <link rel="stylesheet" type="text/css" href="../css/base.css">
   <link rel="stylesheet" type="text/css" href="../css/login.css">
 </head>
@@ -14,31 +14,32 @@
   <div class="login-wrapper">
     <div class="login-card animate-fade">
       <div class="login-header">
-        <h1>Voting Portal</h1>
-        <p>Sign in to your account</p>
+        <h1>Create Account</h1>
+        <p>Register as a new voter</p>
       </div>
-      <form id="loginForm">
+      <form id="signupForm">
         <div class="form-group">
           <label for="voter-id">Voter ID</label>
-          <input type="text" id="voter-id" name="voter-id" placeholder="Enter your voter ID" required autocomplete="off">
+          <input type="text" id="voter-id" name="voter-id" placeholder="Choose a voter ID" required autocomplete="off">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          <input type="password" id="password" name="password" placeholder="Choose a password" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
       </form>
       <div class="footer">
-        <p>Don't have an account? <a href="/signup.html">Sign up here</a></p>
+        <p>Already have an account? <a href="/">Login here</a></p>
       </div>
-    </div>
-    <div class="footer">
-      <p>&copy; 2026 Decentralized Voting System</p>
     </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="../js/login.js" type="module"></script>
+  <script src="../js/signup.js" type="module"></script>
 </body>
 
 </html>

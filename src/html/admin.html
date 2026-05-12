@@ -1,46 +1,161 @@
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin portal</title>
+<html lang="en" data-theme="light">
 
-    <link rel="stylesheet" type="text/css" href="../css/admin.css">
-    
-  </head>
-  <body>
-    <div id="head" class="text-center">
-      <h1 align="center" style="color: azure;">Decentralized Voting Using Ethereum Blockchain</h1>
-      <br/> 
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard - Decentralized Voting</title>
+  <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">VotingChain Admin</div>
+    <nav class="sidebar-nav">
+      <a href="#dashboard" class="nav-item active">Overview</a>
+      <a href="#candidates" class="nav-item">Candidates</a>
+      <a href="#voters" class="nav-item">Voters</a>
+      <a href="#timeline" class="nav-item">Timeline</a>
+      <a href="#settings" class="nav-item">Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#" onclick="App.logout()" class="nav-item">Logout</a>
     </div>
+  </aside>
 
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <h2 id="pageTitle">Admin Overview</h2>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="App.toggleTheme()" id="themeBtn">🌙</button>
+      <div class="profile-circle" id="profileInitials" onclick="location.href='#settings'">A</div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-wrapper animate-fade">
     <div class="container">
-     <legend>Add Candidate</legend>  
-     <table  class="table text-center"> 
-              <tr>
-                <th>Name </th><td>  <input id="name" type="text" name="name" placeholder ="Candidates name" autocomplete="off"></td>  
-                <th>Party</th><td><input id="party" type="text" name="party" placeholder ="Candidates party"></td> 
-              </tr>
-      </table> 
-      <input id="addCandidate" type="submit" name="submit" value="Add Candidate">
-      <p id="Aday"></p>
-    </div>
+      <div class="admin-grid">
+        <!-- Candidate Management Section -->
+        <section id="candidates" class="card full-width hover-lift stagger-1">
+          <div class="card-header">
+            <h2>Candidate Management</h2>
+            <p>Manage the election ballot</p>
+          </div>
+          <div class="table-wrapper">
+            <table class="minimal-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Party</th>
+                  <th>Votes</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminCandidateList"></tbody>
+            </table>
+          </div>
+          <div class="add-candidate-inline">
+            <input id="name" type="text" placeholder="Candidate Name">
+            <input id="party" type="text" placeholder="Party Name">
+            <button id="addCandidate" type="button" class="btn btn-primary">+ Add</button>
+          </div>
+        </section>
 
-    <div class="container">
-     <legend>Define Voting Dates</legend>  
-     <table  class="table text-center"> 
-              <tr>              
-                <th>Start date</th><td><input id="startDate" type="date" name=""></td>
-                <th>End date</th><td>    <input id="endDate" type="date" name="" ></td>
-              </tr>
-      </table> 
-      <input id="addDate" type="submit" name="submit" value="Define Dates">
-      <p id="Aday"></p>
+        <!-- Voter Management Section -->
+        <section id="voters" class="card hover-lift stagger-2">
+          <div class="card-header">
+            <h2>Voter Management</h2>
+            <p>System users</p>
+          </div>
+          <div class="table-wrapper">
+            <table class="minimal-table">
+              <thead>
+                <tr>
+                  <th>Voter ID</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="voterList"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Live Standings Graph -->
+        <section id="dashboard" class="card hover-lift stagger-3">
+          <div class="card-header">
+            <h2>Election Results</h2>
+            <p>Real-time vote distribution</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="voteChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Account Settings -->
+        <section id="settings" class="card full-width hover-lift stagger-4">
+          <div class="card-header">
+            <h2>Admin Security</h2>
+            <p>Update credentials</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newPassword">New Admin Password</label>
+              <input id="newPassword" type="password" placeholder="Enter new password">
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button class="btn btn-primary" onclick="App.changePassword()">Update Password</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Voting Dates Section -->
+        <section id="timeline" class="card full-width hover-lift stagger-4">
+          <div class="card-header">
+            <h2>Election Timeline</h2>
+            <p>Define start and end dates</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <input id="startDate" type="date">
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date</label>
+              <input id="endDate" type="date">
+            </div>
+          </div>
+          <button id="addDate" type="button" class="btn btn-primary">Set Voting Dates</button>
+        </section>
+
+        <!-- Danger Zone Section -->
+        <section class="card full-width hover-lift stagger-4" style="border: 1px solid #ff4d4d; background: #fffcfc;">
+          <div class="card-header" style="border-bottom-color: #ffd6d6;">
+            <h2 style="color: #d82c0d;">Danger Zone</h2>
+            <p>Irreversible actions</p>
+          </div>
+          <div class="form-row" style="align-items: center; justify-content: space-between;">
+            <div class="form-group">
+              <h3 style="font-size: 1rem; margin-bottom: 0.25rem;">Clear Voting History</h3>
+              <p style="font-size: 0.85rem; color: #d82c0d; margin-bottom: 0;">Resets all votes and starts a new cycle.</p>
+            </div>
+            <button class="btn btn-danger" onclick="App.resetElection()">Reset Election</button>
+          </div>
+        </section>
+      </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="../dist/app.bundle.js" type="module"></script>
-  </body>
+</body>
+
 </html>
