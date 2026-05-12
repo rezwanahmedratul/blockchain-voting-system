@@ -21,3 +21,4 @@ INFO:     10.0.0.40:58432 - "GET /voters HTTP/1.1" 200 OK
 INFO:     10.0.0.40:43750 - "GET /voters HTTP/1.1" 200 OK
 INFO:     10.0.0.40:51702 - "GET /voters HTTP/1.1" 200 OK
 INFO:     10.0.0.40:48558 - "GET /voters HTTP/1.1" 200 OK
+INFO:     10.0.0.40:49772 - "GET /voters HTTP/1.1" 200 OK

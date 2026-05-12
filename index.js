@@ -14,7 +14,7 @@ const authorizeUser = (req, res, next) => {
   if (!token) {
     return res.status(401).send('<h1 align="center"> Login to Continue </h1>');
   }
-  
+
   try {
     // Verify and decode the token
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY, { algorithms: ['HS256'] });

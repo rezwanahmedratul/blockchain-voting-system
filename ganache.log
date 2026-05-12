@@ -306,3 +306,7 @@ eth_call
 eth_call
 eth_call
 net_version
+net_version
+eth_blockNumber
+net_version
+eth_blockNumber
