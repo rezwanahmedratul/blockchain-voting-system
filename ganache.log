@@ -70,10 +70,12 @@ eth_sendTransaction
   Contract created: 0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab
   Gas usage: 857723
   Block number: 1
-  Block time: Tue May 12 2026 15:27:06 GMT+0000 (Coordinated Universal Time)
+  Block time: Tue May 12 2026 17:11:35 GMT+0000 (Coordinated Universal Time)
 
 eth_getTransactionReceipt
 eth_getCode
 eth_getTransactionByHash
 eth_getBlockByNumber
+eth_getBalance
+eth_blockNumber
 eth_getBalance
