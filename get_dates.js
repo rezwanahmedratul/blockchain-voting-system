@@ -1,6 +1,13 @@
-module.exports = async function(callback) {
+const Web3 = require('web3');
+const contract = require('@truffle/contract');
+const artifacts = require('./build/contracts/Voting.json');
+
+const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545');
+const VotingContract = contract(artifacts);
+VotingContract.setProvider(provider);
+
+async function run() {
     try {
-        const VotingContract = artifacts.require("Voting");
         const instance = await VotingContract.deployed();
         const dates = await instance.getDates();
         console.log("Start timestamp:", dates[0].toString());
@@ -8,9 +15,8 @@ module.exports = async function(callback) {
         
         const now = Math.floor(Date.now() / 1000);
         console.log("Current timestamp:", now);
-        callback();
     } catch(e) {
-        console.error(e);
-        callback(e);
+        console.error("Failed:", e.message);
     }
 }
+run();

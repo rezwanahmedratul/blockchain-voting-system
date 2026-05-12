@@ -163,7 +163,7 @@ window.App = {
         if (startTs === 0) {
           $("#dates").text("Not Scheduled");
         } else {
-          $("#dates").text(startDate.toDateString() + " - " + endDate.toDateString());
+          $("#dates").text(startDate.toLocaleString() + " - " + endDate.toLocaleString());
           if (now >= startDate && now <= endDate) {
             votingActive = true;
           }
@@ -175,7 +175,12 @@ window.App = {
                 $("#voteButton").attr("disabled", false);
                 $("#voteButton").addClass("btn-pulse");
               } else {
-                $("#msg").html("<span class='account-pill' style='background: var(--danger); color: var(--on-primary);'>Election not active</span>");
+                let msgText = "Election not active";
+                if (startTs !== 0) {
+                  if (now < startDate) msgText = "Election has not started yet";
+                  else if (now > endDate) msgText = "Election has ended";
+                }
+                $("#msg").html("<span class='account-pill' style='background: var(--danger); color: var(--on-primary);'>" + msgText + "</span>");
               }
             } else {
               $("#msg").html("<span class='account-pill'>You have already voted</span>");
@@ -430,7 +435,7 @@ window.App = {
     if (!confirm("FINAL CONFIRMATION: Are you absolutely sure?")) return;
 
     VotingContract.deployed().then(function(instance){
-      instance.resetElection().then(function(result){
+      instance.resetElection({from: App.account, gas: 500000}).then(function(result){
         App.showToast("Election cycle reset successfully. A new round has begun!", "success");
         setTimeout(() => location.reload(), 800);
       }).catch(function(err){
@@ -564,9 +569,7 @@ window.App = {
   },
 
   logout: function() {
-    if (confirm("Are you sure you want to logout?")) {
-      window.location.href = '/login.html';
-    }
+    window.location.replace('/');
   }
 }
 

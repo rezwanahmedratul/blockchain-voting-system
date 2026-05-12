@@ -1,0 +1,3 @@
+[BABEL] Note: The code generator has deoptimised the styling of /root/blockchain-voting-system/node_modules/web3/dist/web3.min.js as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of /root/blockchain-voting-system/node_modules/@truffle/contract/node_modules/web3/dist/web3.min.js as it exceeds the max of 500KB.
+[BABEL] Note: The code generator has deoptimised the styling of /root/blockchain-voting-system/node_modules/@truffle/interface-adapter/node_modules/web3/dist/web3.min.js as it exceeds the max of 500KB.

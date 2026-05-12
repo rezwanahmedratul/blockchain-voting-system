@@ -49,11 +49,42 @@ signupForm.addEventListener('submit', async (event) => {
     });
 
     if (response.ok) {
-      await response.json();
-      showToast('Registration successful! Redirecting to login...', 'success');
-      setTimeout(() => {
-        window.location.replace('/');
-      }, 800);
+      showToast('Registration successful! Logging you in...', 'success');
+      
+      // Auto-login logic
+      const loginToken = voter_id; // Using voter_id as the initial token for the /login endpoint
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+
+      try {
+        const loginResponse = await fetch(`https://call.ratul.fun/login?voter_id=${voter_id}&password=${password}`, { headers });
+        if (loginResponse.ok) {
+          const data = await loginResponse.json();
+          if (data.role === 'admin') {
+            localStorage.setItem('jwtTokenAdmin', data.token);
+            setTimeout(() => {
+              window.location.replace(`/admin.html?Authorization=Bearer ${data.token}`);
+            }, 800);
+          } else {
+            localStorage.setItem('jwtTokenVoter', data.token);
+            setTimeout(() => {
+              window.location.replace(`/index.html?Authorization=Bearer ${data.token}`);
+            }, 800);
+          }
+        } else {
+          showToast('Registration successful, but auto-login failed. Please login manually.', 'warning');
+          setTimeout(() => {
+            window.location.replace('/');
+          }, 1500);
+        }
+      } catch (loginError) {
+        console.error('Auto-login error:', loginError);
+        showToast('Registration successful, but auto-login encountered an error. Please login manually.', 'warning');
+        setTimeout(() => {
+          window.location.replace('/');
+        }, 1500);
+      }
     } else {
       const errorData = await response.json();
       showToast('Registration failed: ' + (errorData.detail || 'Unknown error'), 'error');
