@@ -149,9 +149,6 @@ You're all set! The Voting app should be up and running now at http://localhost:
         ├── README.md                     # Project documentation.
         └── truffle-config.js                    # Truffle configuration file.
 
-## License
-
-The code in this repository is licensed under the MIT License. This means that you are free to use, modify, and distribute the code, as long as you include the original copyright and license notice. For more information about LICENSE please click [here](https://github.com/Krish-Depani/Decentralized-Voting-System-Using-Ethereum-Blockchain/blob/main/LICENSE).
 
 ## If you like this project, please give it a 🌟.
 ## Thank you 😊.
